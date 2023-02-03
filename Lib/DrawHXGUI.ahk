@@ -133,9 +133,10 @@ DrawHXGUI(codetext, Textobj, x:=0, y:=0, Textdirection:=0, Font:="Microsoft YaHe
         mw+=xoffset, mh+=yoffset
     }
     Gdip_DeleteGraphics(G), hbm := CreateDIBSection(mw, mh), obm := SelectObject(hdc, hbm)
-    ; 设置绘图质量 测试：手臂
+    ; 设置绘图质量 测试：手臂还不错呢？不是吗
+    ; 这里原来的 4+(FontSize<21) 是不对的
     ; G := Gdip_GraphicsFromHDC(hdc), Gdip_SetSmoothingMode(G, 2), Gdip_SetTextRenderingHint(G, 4+(FontSize<21))
-    G := Gdip_GraphicsFromHDC(hdc), Gdip_SetSmoothingMode(G, 2), Gdip_SetTextRenderingHint(G, 4)
+    G := Gdip_GraphicsFromHDC(hdc), Gdip_SetSmoothingMode(G, 4), Gdip_SetTextRenderingHint(G, 4)
     ; 背景色
     Gdip_FillRoundedRectangle(G, pBrush[Background], 0, 0, mw-2, mh-2, 5)
     ; 编码
