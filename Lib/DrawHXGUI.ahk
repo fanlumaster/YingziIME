@@ -42,6 +42,7 @@ Gdip_MeasureString2(pGraphics, sString, hFont, hFormat, ByRef RectF){
 DrawHXGUI(codetext, Textobj, x:=0, y:=0, Textdirection:=0, Font:="Microsoft YaHei UI"){
     Critical
     static init:=0, Hidefg:=0, DPI:=A_ScreenDPI/96, MonCount:=1, MonLeft, MonTop, MonRight, MonBottom, minw:=0
+    ; static init:=0, Hidefg:=0, DPI:=A_ScreenDPI/48, MonCount:=1, MonLeft, MonTop, MonRight, MonBottom, minw:=0
     , MinLeft:=DllCall("GetSystemMetrics", "Int", 76), MinTop:=DllCall("GetSystemMetrics", "Int", 77)
     , MaxRight:=DllCall("GetSystemMetrics", "Int", 78), MaxBottom:=DllCall("GetSystemMetrics", "Int", 79)
     , xoffset, yoffset, hoffset ; 左边、上边、编码词条间距离增量
@@ -85,7 +86,7 @@ DrawHXGUI(codetext, Textobj, x:=0, y:=0, Textdirection:=0, Font:="Microsoft YaHe
         }
     } Else
     x:=(x<MinLeft?MinLeft:x>MaxRight?MaxRight:x), y:=(y<MinTop?MinTop:y>MaxBottom?MaxBottom:y)
-    hFamily := Gdip_FontFamilyCreate(Font), hFont := Gdip_FontCreate(hFamily, FontSize*DPI, FontBold)
+    hFamily := Gdip_FontFamilyCreate(Font), hFont := Gdip_FontCreate(hFamily, FontSize*DPI, FontBold) 
     hFormat := Gdip_StringFormatCreate(0x4000), Gdip_SetStringFormatAlign(hFormat, 0x00000800), pBrush := []
     For __,_value in ["Background","Code","Text","Focus","FocusBack"]
         If (!pBrush[%_value%])
@@ -132,7 +133,9 @@ DrawHXGUI(codetext, Textobj, x:=0, y:=0, Textdirection:=0, Font:="Microsoft YaHe
         mw+=xoffset, mh+=yoffset
     }
     Gdip_DeleteGraphics(G), hbm := CreateDIBSection(mw, mh), obm := SelectObject(hdc, hbm)
-    G := Gdip_GraphicsFromHDC(hdc), Gdip_SetSmoothingMode(G, 2), Gdip_SetTextRenderingHint(G, 4+(FontSize<21))
+    ; 设置绘图质量 测试：手臂
+    ; G := Gdip_GraphicsFromHDC(hdc), Gdip_SetSmoothingMode(G, 2), Gdip_SetTextRenderingHint(G, 4+(FontSize<21))
+    G := Gdip_GraphicsFromHDC(hdc), Gdip_SetSmoothingMode(G, 2), Gdip_SetTextRenderingHint(G, 4)
     ; 背景色
     Gdip_FillRoundedRectangle(G, pBrush[Background], 0, 0, mw-2, mh-2, 5)
     ; 编码

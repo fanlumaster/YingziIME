@@ -13,5 +13,10 @@ n = 1000
 for each in cursor.fetchall()[-n:]:
     print(each)
 
+# 找出词库中有 # 的词语
+# for each in cursor.fetchall():
+#     if (each[2][0] == '#'):
+#         print(each)
+
 # 关闭数据库连接
 db.close()
